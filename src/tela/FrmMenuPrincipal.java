@@ -26,27 +26,126 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
+        jMenu8 = new javax.swing.JMenu();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("File");
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 10)); // NOI18N
+        jLabel1.setText("José Miguel Forster Filho");
 
-        jMenuItem1.setText("File 1");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+        jMenuBar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuBar1MousePressed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+
+        jMenu1.setText("Compra");
+
+        jMenuItem5.setText("Realizar pedido de compra");
+        jMenu1.add(jMenuItem5);
+
+        jMenuItem6.setText("Consultar pedidos de compra");
+        jMenu1.add(jMenuItem6);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Venda");
+
+        jMenuItem7.setText("Realizar pedido de venda");
+        jMenu2.add(jMenuItem7);
+
+        jMenuItem8.setText("Consultar pedidos de venda");
+        jMenu2.add(jMenuItem8);
+
         jMenuBar1.add(jMenu2);
+
+        jMenu6.setText("Cadastros");
+
+        jMenu4.setText("Clientes");
+
+        jMenuItem9.setText("Cadastrar cliente");
+        jMenu4.add(jMenuItem9);
+
+        jMenuItem10.setText("Consultar clientes");
+        jMenu4.add(jMenuItem10);
+
+        jMenu6.add(jMenu4);
+
+        jMenu5.setText("Fornecedores");
+
+        jMenuItem11.setText("Cadastrar fornecedor");
+        jMenu5.add(jMenuItem11);
+
+        jMenuItem12.setText("Consultar fornecedores");
+        jMenu5.add(jMenuItem12);
+
+        jMenu6.add(jMenu5);
+
+        jMenu7.setText("Produtos");
+
+        jMenuItem13.setText("Cadastrar produto");
+        jMenu7.add(jMenuItem13);
+
+        jMenuItem14.setText("Consultar produtos");
+        jMenu7.add(jMenuItem14);
+
+        jMenu6.add(jMenu7);
+
+        jMenu8.setText("Endereços");
+
+        jMenuItem15.setText("Cadastrar endereço");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem15);
+
+        jMenuItem16.setText("Consultar endereços");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem16);
+
+        jMenu6.add(jMenu8);
+
+        jMenuBar1.add(jMenu6);
+
+        jMenu3.setText("Sair");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -54,19 +153,41 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(535, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 265, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(338, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+        // método errado.
+    }//GEN-LAST:event_jMenu3ActionPerformed
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void jMenuBar1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuBar1MousePressed
+        //System.exit(0);
+    }//GEN-LAST:event_jMenuBar1MousePressed
+
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        new FrmCadastrarEndereco().setVisible(true);
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        new FrmConsultarEndereco().setVisible(true);
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -104,9 +225,27 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 }
