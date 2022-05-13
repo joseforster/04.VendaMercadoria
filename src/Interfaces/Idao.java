@@ -1,8 +1,9 @@
-package interfaces;
+package Interfaces;
 
 import java.util.ArrayList;
 
 public interface Idao <T> {
+    
     
     public boolean create(T objeto);
     
@@ -13,5 +14,6 @@ public interface Idao <T> {
     public T GetById(int id);
     
     public boolean delete(T objeto);
+   
     
 }

@@ -2,7 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package tela;
+package View;
+
+import Model.EnderecoModel;
+import java.beans.Statement;
+import java.util.ArrayList;
+import DAO.EnderecoDAO;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,6 +21,20 @@ public class FrmConsultarEndereco extends javax.swing.JFrame {
      */
     public FrmConsultarEndereco() {
         initComponents();
+        
+        populateTable();
+    }
+    
+    private void populateTable(){
+    
+    ArrayList<EnderecoModel> listaEndereco = new EnderecoDAO().GetAll();
+    
+    DefaultTableModel tableModel = new DefaultTableModel();
+    
+    tableModel.addRow(listaEndereco.toArray());
+    
+    jTable1.setModel(tableModel);
+     
     }
 
     /**
@@ -43,6 +63,8 @@ public class FrmConsultarEndereco extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
