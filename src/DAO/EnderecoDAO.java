@@ -5,17 +5,17 @@
 package DAO;
 
 import Model.EnderecoModel;
-import Interfaces.Idao;
 import java.util.ArrayList;
 import BD.*;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import Interfaces.IDAO;
 
 /**
  *
  * @author forster
  */
-public class EnderecoDAO implements Idao<EnderecoModel> {
+public class EnderecoDAO implements IDAO<EnderecoModel> {
 
     public EnderecoDAO() {
         
@@ -55,31 +55,50 @@ public class EnderecoDAO implements Idao<EnderecoModel> {
     }
 
     @Override
-    public ArrayList<EnderecoModel> GetAll() {
+    public String[][] GetAll() {
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.endereco;";
+            
+            ResultSet rsCount = st.executeQuery(sqlCount);
+            
+            int quantidadeRegistros = 0;
+            
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+                        
+            String[] listaEndereco = new String[quantidadeRegistros];
+            
             String sql = "select id, descricao, cep from prog_aplicacoes.endereco;";
             
-            ResultSet resultado = st.executeQuery(sql);
+            ResultSet rsSelect = st.executeQuery(sql);
             
-            ArrayList<EnderecoModel> listaEndereco = new ArrayList<EnderecoModel>();
+            String[] colunas = new String[]{"Id","Descrição","CEP"};
             
-            while(resultado.next()){
-                EnderecoModel model = new EnderecoModel();
+            String [][] data = new String[quantidadeRegistros][colunas.length];
+            
+            int i = 0;
+            
+            while(rsSelect.next()){
+                int id = rsSelect.getInt("id");
+                String descricao = rsSelect.getString("descricao");
+                String cep = rsSelect.getString("cep");
                 
-                model.setId(resultado.getInt("id"));
-                model.setDescricao(resultado.getString("descricao"));
-                model.setCep(resultado.getString("cep"));
+                data[i][0] = id+"";
+                data[i][1] = descricao;
+                data[i][2] = cep;
                 
-                listaEndereco.add(model); 
+                i++;
+                
             }
             
-            return listaEndereco;
+            return data;
             
         }catch(Exception e){
             System.out.println("Erro ao buscar todos os registros: "+e);
-            return new ArrayList<EnderecoModel>();
+            return new String[0][0];
         }
     }
 

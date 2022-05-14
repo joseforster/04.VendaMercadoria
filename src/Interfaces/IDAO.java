@@ -2,14 +2,14 @@ package Interfaces;
 
 import java.util.ArrayList;
 
-public interface Idao <T> {
+public interface IDAO <T> {
     
     
     public boolean create(T objeto);
     
     public boolean update(T objeto);
     
-    public ArrayList<T> GetAll();
+    public String[][] GetAll();
     
     public T GetById(int id);
     
