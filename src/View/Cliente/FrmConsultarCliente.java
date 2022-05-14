@@ -2,24 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View;
+package View.Cliente;
 
-import Model.EnderecoModel;
+import View.Fornecedor.*;
+import View.Fornecedor.*;
+import Model.FornecedorModel;
 import java.beans.Statement;
 import java.util.ArrayList;
-import DAO.EnderecoDAO;
+import DAO.FornecedorDAO;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author forster
  */
-public class FrmConsultarEndereco extends javax.swing.JFrame {
+public class FrmConsultarCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmCadastrarEndereco
      */
-    public FrmConsultarEndereco() {
+    public FrmConsultarCliente() {
         initComponents();
         
         populateTable();
@@ -27,8 +29,8 @@ public class FrmConsultarEndereco extends javax.swing.JFrame {
     
     private void populateTable(){
         
-        String[][] data = new EnderecoDAO().GetAll();
-        String[] colunas = new String[]{"Id", "Descrição","CEP"};
+        String[][] data = new FornecedorDAO().GetAll();
+        String[] colunas = new String[]{"Id", "Nome","Email","Telefone","CNPJ"};
         
         DefaultTableModel tableModel = new DefaultTableModel(data, colunas);
         
@@ -53,7 +55,7 @@ public class FrmConsultarEndereco extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel1.setText("Consultar Endereços");
+        jLabel1.setText("Consultar Fornecedores");
 
         jButton1.setText("Cancelar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -64,22 +66,22 @@ public class FrmConsultarEndereco extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Id", "Descrição", "CEP"
+                "Id", "Nome", "Email", "Telefone", "CNPJ"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -90,6 +92,8 @@ public class FrmConsultarEndereco extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setEnabled(false);
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,21 +149,35 @@ public class FrmConsultarEndereco extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmConsultarEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmConsultarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmConsultarEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmConsultarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmConsultarEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmConsultarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmConsultarEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmConsultarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmConsultarEndereco().setVisible(true);
+                new FrmConsultarCliente().setVisible(true);
             }
         });
     }
