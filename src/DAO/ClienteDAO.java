@@ -56,9 +56,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sqlCount = "select count(c.id) as qtde FROM prog_aplicacoes.cliente as c " +
-            "inner join prog_aplicacoes.cliente_endereco as ce on c.id = ce.cliente_id " +
-            "inner join prog_aplicacoes.endereco as e on e.id = ce.endereco_id;";
+            String sqlCount = "select count(id) as qtde FROM prog_aplicacoes.cliente";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -68,13 +66,11 @@ public class ClienteDAO implements IDAO<ClienteModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select c.id, c.nome, c.email, c.cpf, c.telefone, e.descricao as endereco FROM prog_aplicacoes.cliente as c " +
-            "inner join prog_aplicacoes.cliente_endereco as ce on c.id = ce.cliente_id " +
-            "inner join prog_aplicacoes.endereco as e on e.id = ce.endereco_id;";
+            String sql = "select * FROM prog_aplicacoes.cliente;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
-            String[] colunas = new String[]{"Id","Nome","Email", "CPF", "Telefone", "Endereço"};
+            String[] colunas = new String[]{"Id","Nome","Email", "CPF", "Telefone"};
             
             String [][] data = new String[quantidadeRegistros][colunas.length];
             
@@ -86,14 +82,13 @@ public class ClienteDAO implements IDAO<ClienteModel> {
                 String email = rsSelect.getString("email");
                 String cpf = rsSelect.getString("cpf");
                 String telefone = rsSelect.getString("telefone");
-                String endereco = rsSelect.getString("endereco");
-                
+          
                 data[i][0] = id+"";
                 data[i][1] = nome;
                 data[i][2] = email;
                 data[i][3] = cpf;
                 data[i][4] = telefone;
-                data[i][5] = endereco;
+        
                 
                 i++;
                 
@@ -115,6 +110,57 @@ public class ClienteDAO implements IDAO<ClienteModel> {
     @Override
     public boolean delete(ClienteModel objeto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    public String[][] GetClientesPorEndereco() {
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sqlCount = "select count(c.id) as qtde FROM prog_aplicacoes.cliente as c " +
+            "inner join prog_aplicacoes.cliente_endereco as ce on c.id = ce.cliente_id " +
+            "inner join prog_aplicacoes.endereco as e on e.id = ce.endereco_id";
+            
+            ResultSet rsCount = st.executeQuery(sqlCount);
+            
+            int quantidadeRegistros = 0;
+            
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+            
+            String sql = "select c.id, c.nome, e.descricao as endereco FROM prog_aplicacoes.cliente as c " +
+            "inner join prog_aplicacoes.cliente_endereco as ce on c.id = ce.cliente_id " +
+            "inner join prog_aplicacoes.endereco as e on e.id = ce.endereco_id " +
+            "order by c.id asc;";
+            
+            ResultSet rsSelect = st.executeQuery(sql);
+            
+            String[] colunas = new String[]{"Id","Nome","Endereço"};
+            
+            String [][] data = new String[quantidadeRegistros][colunas.length];
+            
+            int i = 0;
+            
+            while(rsSelect.next()){
+                int id = rsSelect.getInt("id");
+                String nome = rsSelect.getString("nome");
+                String endereco = rsSelect.getString("endereco");
+          
+                data[i][0] = id+"";
+                data[i][1] = nome;
+                data[i][2] = endereco;
+        
+                
+                i++;
+                
+            }
+            
+            return data;
+            
+        }catch(Exception e){
+            System.out.println("Erro ao buscar todos os registros: "+e);
+            return new String[0][0];
+        }
     }
     
 }

@@ -14,12 +14,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author forster
  */
-public class FrmConsultarCliente extends javax.swing.JFrame {
+public class FrmConsultarClientesEndereco extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmCadastrarEndereco
      */
-    public FrmConsultarCliente() {
+    public FrmConsultarClientesEndereco() {
         initComponents();
         
         populateTable();
@@ -27,8 +27,8 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
     
     private void populateTable(){
         
-        String[][] data = new ClienteDAO().GetAll();
-        String[] colunas = new String[]{"Id", "Nome","Email","Telefone","CPF"};
+        String[][] data = new ClienteDAO().GetClientesPorEndereco();
+        String[] colunas = new String[]{"Id", "Nome","Endereço"};
         
         DefaultTableModel tableModel = new DefaultTableModel(data, colunas);
         
@@ -53,7 +53,7 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel1.setText("Consultar Clientes");
+        jLabel1.setText("Consultar Clientes x Endereço");
 
         jButton1.setText("Cancelar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -64,22 +64,22 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Id", "Nome", "Email", "Telefone", "CPF"
+                "Id", "Nome", "Endereco"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -147,14 +147,30 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmConsultarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmConsultarClientesEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmConsultarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmConsultarClientesEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmConsultarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmConsultarClientesEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmConsultarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmConsultarClientesEndereco.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -175,7 +191,7 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmConsultarCliente().setVisible(true);
+                new FrmConsultarClientesEndereco().setVisible(true);
             }
         });
     }
