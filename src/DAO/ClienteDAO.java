@@ -18,7 +18,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
 
     @Override
     public boolean create(ClienteModel objeto) {
-                try{
+        try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
             String sql = "insert into prog_aplicacoes.cliente(nome, email, cpf, telefone) values ("

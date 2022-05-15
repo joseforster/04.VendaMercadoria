@@ -103,4 +103,46 @@ public class ProdutoDAO implements IDAO<ProdutoModel>{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    public String[] GetAllJList(){
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.produto;";
+
+            ResultSet rsCount = st.executeQuery(sqlCount);
+
+            int quantidadeRegistros = 0;
+
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+
+            String sql = "select id ||' - '||descricao||' - Valor Unitário: R$ '||valor_unitario||' - Qtde Estoque: '||qtde_estoque as produto from prog_aplicacoes.produto order by produto.id asc;";
+
+            ResultSet rsSelect = st.executeQuery(sql);
+
+            String [] data = new String[quantidadeRegistros];
+
+            int i = 0;
+
+            while(rsSelect.next()){
+
+                String endereco = rsSelect.getString("produto");
+
+                data[i] = endereco;
+
+                i++;
+
+            }
+
+            return data;
+
+        }catch(Exception e){
+            System.out.println("Erro ao buscar todos os registros para JList: "+e);
+            return new String[0];
+        }
+    }
+    
+    
+    
 }

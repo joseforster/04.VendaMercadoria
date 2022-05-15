@@ -105,5 +105,45 @@ public class FornecedorDAO implements IDAO<FornecedorModel>{
     public boolean delete(FornecedorModel objeto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+        
+    public String[] GetAllComboBox(){
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.fornecedor;";
+
+            ResultSet rsCount = st.executeQuery(sqlCount);
+
+            int quantidadeRegistros = 0;
+
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+
+            String sql = "select id ||' - '||nome||' - '||cnpj as fornecedor from prog_aplicacoes.fornecedor;";
+
+            ResultSet rsSelect = st.executeQuery(sql);
+
+            String [] data = new String[quantidadeRegistros];
+
+            int i = 0;
+
+            while(rsSelect.next()){
+
+                String endereco = rsSelect.getString("fornecedor");
+
+                data[i] = endereco;
+
+                i++;
+
+            }
+
+            return data;
+
+        }catch(Exception e){
+            System.out.println("Erro ao buscar todos os registros para combo box: "+e);
+            return new String[0];
+        }
+    }
+
 }
