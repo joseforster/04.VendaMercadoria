@@ -52,6 +52,4 @@ public class ItemCompraModel {
     public void setCompra(CompraModel compra) {
         this.compra = compra;
     }
-    
-    
 }

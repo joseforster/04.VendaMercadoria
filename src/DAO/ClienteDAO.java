@@ -163,4 +163,44 @@ public class ClienteDAO implements IDAO<ClienteModel> {
         }
     }
     
+    public String [] GetAllComboBox(){
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.cliente;";
+
+            ResultSet rsCount = st.executeQuery(sqlCount);
+
+            int quantidadeRegistros = 0;
+
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+
+            String sql = "select id||' - '||nome||' - '||cpf as cliente  from prog_aplicacoes.cliente order by cliente.nome;";
+
+            ResultSet rsSelect = st.executeQuery(sql);
+
+            String [] data = new String[quantidadeRegistros];
+
+            int i = 0;
+
+            while(rsSelect.next()){
+
+                String cliente = rsSelect.getString("cliente");
+
+                data[i] = cliente;
+
+                i++;
+
+            }
+
+            return data;
+
+        }catch(Exception e){
+            System.out.println("Erro ao buscar todos os registros para combo box: "+e);
+            return new String[0];
+        }
+    }
+    
 }

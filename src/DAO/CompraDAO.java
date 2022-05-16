@@ -18,7 +18,7 @@ public class CompraDAO implements IDAO<CompraModel>{
 
     @Override
     public boolean create(CompraModel objeto) {
-                try{
+        try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
             String sql = "insert into prog_aplicacoes.compra(data,fornecedor_id) values ("

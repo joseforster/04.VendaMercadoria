@@ -145,4 +145,46 @@ public class EnderecoDAO implements IDAO<EnderecoModel> {
         }
     }
     
+    public String[] GetEnderecoByClienteComboBox(int cliente_id){
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.cliente_endereco where cliente_id = " + cliente_id + ";";
+            
+            ResultSet rsCount = st.executeQuery(sqlCount);
+            
+            int quantidadeRegistros = 0;
+            
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+            
+            String sql = "select descricao||' - '||cep as endereco from prog_aplicacoes.endereco " +
+            "inner join prog_aplicacoes.cliente_endereco ON cliente_endereco.endereco_id = endereco.id " +
+            "where cliente_endereco.cliente_id = " + cliente_id + ";";
+            
+            ResultSet rsSelect = st.executeQuery(sql);
+            
+            String [] data = new String[quantidadeRegistros];
+            
+            int i = 0;
+            
+            while(rsSelect.next()){
+
+                String endereco = rsSelect.getString("endereco");
+                
+                data[i] = endereco;
+                
+                i++;
+                
+            }
+            
+            return data;
+            
+        }catch(Exception e){
+            System.out.println("Erro ao buscar todos os registros para combo box: "+e);
+            return new String[0];
+        }
+    }
+    
 }

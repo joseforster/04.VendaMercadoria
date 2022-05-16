@@ -2,42 +2,42 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package View.Compra;
+package View.Pedido;
 
-import DAO.CompraDAO;
-import DAO.FornecedorDAO;
+import DAO.PedidoDAO;
+import DAO.ClienteDAO;
 import javax.swing.JOptionPane;
 import DAO.ProdutoDAO;
-import Model.CompraModel;
-import Model.FornecedorModel;
-import Model.ItemCompraModel;
+import Model.PedidoModel;
+import Model.ClienteModel;
+import Model.ItemPedidoModel;
 import Model.ProdutoModel;
 
 /**
  *
  * @author forster
  */
-public class FrmRealizarCompra extends javax.swing.JFrame {
+public class FrmCadastrarPedido extends javax.swing.JFrame {
 
-    private CompraModel compraModel;
+    private PedidoModel pedidoModel;
     /**
      * Creates new form FrmCadastrarEndereco
      */
-    public FrmRealizarCompra() {
+    public FrmCadastrarPedido() {
         initComponents();
         
-        String[] sourceFornecedorComboBox = new FornecedorDAO().GetAllComboBox();
+        String[] sourceClienteComboBox = new ClienteDAO().GetAllComboBox();
         
-        for(var fornecedor : sourceFornecedorComboBox){
-            comboBoxFornecedor.addItem(fornecedor);
+        for(var cliente : sourceClienteComboBox){
+            comboBoxCliente.addItem(cliente);
             
         }
         
         String[] sourceListaCompraProdutos = new ProdutoDAO().GetAllJList();
         
-        listaCompraProdutos.setListData(sourceListaCompraProdutos);
+        listaPedidoProdutos.setListData(sourceListaCompraProdutos);
         
-        compraModel = new CompraModel();
+        pedidoModel = new PedidoModel();
     }
 
     /**
@@ -55,18 +55,18 @@ public class FrmRealizarCompra extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaCompraProdutos = new javax.swing.JList<>();
-        comboBoxFornecedor = new javax.swing.JComboBox<>();
+        listaPedidoProdutos = new javax.swing.JList<>();
+        comboBoxCliente = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        fieldCompraQuantidade = new javax.swing.JTextField();
+        fieldPedidoQuantidade = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel1.setText("Realizar Compra");
+        jLabel1.setText("Realizar Pedido");
 
-        jLabel2.setText("Fornecedor");
+        jLabel2.setText("Cliente");
 
         jLabel3.setText("Produto");
 
@@ -77,37 +77,37 @@ public class FrmRealizarCompra extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Comprar produto");
+        jButton2.setText("Incluir produto no pedido");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        listaCompraProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+        listaPedidoProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listaCompraProdutosMouseClicked(evt);
+                listaPedidoProdutosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(listaCompraProdutos);
+        jScrollPane1.setViewportView(listaPedidoProdutos);
 
-        comboBoxFornecedor.addFocusListener(new java.awt.event.FocusAdapter() {
+        comboBoxCliente.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                comboBoxFornecedorFocusLost(evt);
+                comboBoxClienteFocusLost(evt);
             }
         });
-        comboBoxFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+        comboBoxCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                comboBoxFornecedorMouseExited(evt);
+                comboBoxClienteMouseExited(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                comboBoxFornecedorMouseReleased(evt);
+                comboBoxClienteMouseReleased(evt);
             }
         });
 
         jLabel4.setText("Quantidade");
 
-        jButton3.setText("Finalizar Compra");
+        jButton3.setText("Finalizar Pedido");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -119,12 +119,18 @@ public class FrmRealizarCompra extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(280, Short.MAX_VALUE)
+                .addContainerGap(249, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(214, 214, 214))
+                .addGap(249, 249, 249))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -132,17 +138,11 @@ public class FrmRealizarCompra extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBoxFornecedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboBoxCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(fieldCompraQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(fieldPedidoQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -153,25 +153,24 @@ public class FrmRealizarCompra extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(comboBoxFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fieldCompraQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3))
-                        .addContainerGap())
+                            .addComponent(fieldPedidoQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
-                        .addComponent(jLabel3)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap())
         );
 
         pack();
@@ -183,69 +182,61 @@ public class FrmRealizarCompra extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     
-    if(compraModel.getFornecedor() == null){
+    if(pedidoModel.getCliente()== null){
         
-        String[] fornecedor = comboBoxFornecedor.getSelectedItem().toString().split(" - ");
+        String[] cliente = comboBoxCliente.getSelectedItem().toString().split(" - ");
     
-        FornecedorModel fornecedorModel = new FornecedorModel(fornecedor[1], null, null, fornecedor[2]);
+        ClienteModel clienteModel = new ClienteModel(cliente[1], null, cliente[2], null, null);
         
-        fornecedorModel.setId(Integer.parseInt(fornecedor[0]));
+        clienteModel.setId(Integer.parseInt(cliente[0]));
         
-        compraModel.setFornecedor(fornecedorModel);
+        pedidoModel.setCliente(clienteModel);
     }
     
     
-    String[] produto = listaCompraProdutos.getSelectedValue().split(" - ");
+    String[] produto = listaPedidoProdutos.getSelectedValue().split(" - ");
     
     ProdutoModel produtoModel = new ProdutoModel(
             produto[1], 
-            Double.parseDouble(produto[2].replace("Valor Unitário: R$", "")), 
+            Double.parseDouble(produto[2].replace("Valor Unitário: R$ ", "")), 
             produto[3].replace("Qtde Estoque: ",""));
     
     produtoModel.setId(Integer.parseInt(produto[0]));
     
-    ItemCompraModel itemCompraModel = new ItemCompraModel(
+    ItemPedidoModel itemPedidoModel = new ItemPedidoModel(
             produtoModel, 
-            Integer.parseInt(fieldCompraQuantidade.getText()), 
-            compraModel);
+            Integer.parseInt(fieldPedidoQuantidade.getText()), 
+            pedidoModel);
     
-    compraModel.getProdutos().add(itemCompraModel);
+    pedidoModel.getProdutos().add(itemPedidoModel);
     
-    JOptionPane.showMessageDialog(null, "Produto comprado. \nValor Total: R$ " + itemCompraModel.getValorTotal(), "SUCESSO", 2);
+    JOptionPane.showMessageDialog(null, "Produto inserido no pedido. \nValor Total: R$ " + itemPedidoModel.getValorTotal(), "SUCESSO", 2);
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void listaCompraProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaCompraProdutosMouseClicked
-         fieldCompraQuantidade.setText("");
-    }//GEN-LAST:event_listaCompraProdutosMouseClicked
+    private void listaPedidoProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaPedidoProdutosMouseClicked
+         fieldPedidoQuantidade.setText("");
+    }//GEN-LAST:event_listaPedidoProdutosMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // finalizar compra
+        // finalizar pedido
         
-        CompraDAO compraDAO = new CompraDAO();
+        this.dispose();
         
-        boolean resultado = compraDAO.create(compraModel);
-        
-        if(resultado){
-            JOptionPane.showMessageDialog(null, "Compra realizada com sucesso.", "SUCESSO", 2);
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "Erro ao realizar compra.", "ERRO", 2);
-            this.dispose();
-        }
+        new FrmFinalizarPedido(pedidoModel).setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void comboBoxFornecedorMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxFornecedorMouseExited
+    private void comboBoxClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxClienteMouseExited
         //comboBoxFornecedor.setEnabled(false);
-    }//GEN-LAST:event_comboBoxFornecedorMouseExited
+    }//GEN-LAST:event_comboBoxClienteMouseExited
 
-    private void comboBoxFornecedorMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxFornecedorMouseReleased
+    private void comboBoxClienteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxClienteMouseReleased
         //comboBoxFornecedor.setEnabled(false);
-    }//GEN-LAST:event_comboBoxFornecedorMouseReleased
+    }//GEN-LAST:event_comboBoxClienteMouseReleased
 
-    private void comboBoxFornecedorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBoxFornecedorFocusLost
-        comboBoxFornecedor.setEnabled(false);
-    }//GEN-LAST:event_comboBoxFornecedorFocusLost
+    private void comboBoxClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_comboBoxClienteFocusLost
+        comboBoxCliente.setEnabled(false);
+    }//GEN-LAST:event_comboBoxClienteFocusLost
 
     /**
      * @param args the command line arguments
@@ -264,28 +255,34 @@ public class FrmRealizarCompra extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmRealizarCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCadastrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmRealizarCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCadastrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmRealizarCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCadastrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmRealizarCompra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCadastrarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmRealizarCompra().setVisible(true);
+                new FrmCadastrarPedido().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboBoxFornecedor;
-    private javax.swing.JTextField fieldCompraQuantidade;
+    private javax.swing.JComboBox<String> comboBoxCliente;
+    private javax.swing.JTextField fieldPedidoQuantidade;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -294,6 +291,6 @@ public class FrmRealizarCompra extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> listaCompraProdutos;
+    private javax.swing.JList<String> listaPedidoProdutos;
     // End of variables declaration//GEN-END:variables
 }

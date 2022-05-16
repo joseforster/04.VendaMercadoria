@@ -5,12 +5,11 @@
 package View;
 
 import View.Cliente.*;
-import View.Compra.FrmConsultarCompra;
-import View.Compra.FrmConsultarCompraProduto;
-import View.Compra.FrmRealizarCompra;
+import View.Compra.*;
 import View.Endereco.*;
 import View.Produto.*;
 import View.Fornecedor.*;
+import View.Pedido.*;
 
 
 /**
@@ -102,6 +101,11 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Pedido");
 
         jMenuItem7.setText("Realizar pedido");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem7);
 
         jMenuItem8.setText("Consultar pedidos");
@@ -285,7 +289,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        new FrmRealizarCompra().setVisible(true);
+        new FrmCadastrarCompra().setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -295,6 +299,10 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         new FrmConsultarCompraProduto().setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        new FrmCadastrarPedido().setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
