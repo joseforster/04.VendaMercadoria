@@ -124,7 +124,7 @@ public class CompraDAO implements IDAO<CompraModel>{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    public String[][] GetItensPorCompra(){
+    public String[][] GetProdutosPorCompra(){
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             

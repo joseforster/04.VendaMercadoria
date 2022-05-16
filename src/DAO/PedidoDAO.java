@@ -7,6 +7,7 @@ package DAO;
 import BD.ConexaoBD;
 import Interfaces.IDAO;
 import Model.PedidoModel;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**
@@ -68,7 +69,57 @@ public class PedidoDAO implements IDAO<PedidoModel>{
 
     @Override
     public String[][] GetAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.pedido;";
+            
+            ResultSet rsCount = st.executeQuery(sqlCount);
+            
+            int quantidadeRegistros = 0;
+            
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+            
+            String sql = "select ped.id, cast(ped.data as date) as dt, c.nome as cliente, ped.endereco_entrega as endereco, ped.observacao " +
+            "from prog_aplicacoes.pedido as ped " +
+            "inner join prog_aplicacoes.cliente as c on c.id = ped.cliente_id " +
+            "order by ped.id desc;";
+            
+            ResultSet rsSelect = st.executeQuery(sql);
+            
+            String[] colunas = new String[]{"Id","Data","Cliente","Endereço","Observação"};
+            
+            String [][] data = new String[quantidadeRegistros][colunas.length];
+            
+            int i = 0;
+            
+            while(rsSelect.next()){
+                int id = rsSelect.getInt("id");
+                String dt = rsSelect.getString("dt");
+                String cliente = rsSelect.getString("cliente");
+                String endereco = rsSelect.getString("endereco");
+                String observacao = rsSelect.getString("observacao");
+                
+     
+                
+                data[i][0] = id+"";
+                data[i][1] = dt;
+                data[i][2] = cliente;
+                data[i][3] = endereco;
+                data[i][4] = observacao;
+                
+                i++;
+                
+            }
+            
+            return data;
+            
+        }catch(Exception e){
+            System.out.println("Erro ao buscar todos os registros: "+e);
+            return new String[0][0];
+        }
     }
 
     @Override
@@ -79,6 +130,64 @@ public class PedidoDAO implements IDAO<PedidoModel>{
     @Override
     public boolean delete(PedidoModel objeto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    public String[][] GetProdutosPorPedido(){
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.item_pedido;";
+            
+            ResultSet rsCount = st.executeQuery(sqlCount);
+            
+            int quantidadeRegistros = 0;
+            
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+            
+            String sql = "select ped.id, cast(ped.data as date) as dt, c.nome as cliente, prod.descricao as produto, ip.qtde, ip.valor_item as valor " +
+            "from prog_aplicacoes.pedido as ped " +
+            "inner join prog_aplicacoes.item_pedido as ip ON ip.pedido_id = ped.id " +
+            "inner join prog_aplicacoes.produto as prod on ip.produto_id = prod.id " +
+            "inner join prog_aplicacoes.cliente as c on c.id = ped.cliente_id " +
+            "order by ped.id desc;";
+            
+            ResultSet rsSelect = st.executeQuery(sql);
+            
+            String[] colunas = new String[]{"Id","Data","Cliente","Produto","Quantidade","Valor"};
+            
+            String [][] data = new String[quantidadeRegistros][colunas.length];
+            
+            int i = 0;
+            
+            while(rsSelect.next()){
+                int id = rsSelect.getInt("id");
+                String dt = rsSelect.getString("dt");
+                String cliente = rsSelect.getString("cliente");
+                String produto = rsSelect.getString("produto");
+                String quantidade = rsSelect.getString("qtde");
+                String valor = rsSelect.getString("valor");
+                
+     
+                
+                data[i][0] = id+"";
+                data[i][1] = dt;
+                data[i][2] = cliente;
+                data[i][3] = produto;
+                data[i][4] = quantidade;
+                data[i][5] = valor;
+                
+                i++;
+                
+            }
+            
+            return data;
+            
+        }catch(Exception e){
+            System.out.println("Erro ao buscar todos os registros: "+e);
+            return new String[0][0];
+        }
     }
     
 }
