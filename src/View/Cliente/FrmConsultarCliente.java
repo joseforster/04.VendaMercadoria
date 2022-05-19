@@ -25,7 +25,7 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
         populateTable();
     }
     
-    private void populateTable(){
+    public void populateTable(){
         
         String[][] data = new ClienteDAO().GetAll();
         String[] colunas = new String[]{"Id", "Nome","Email","Telefone","CPF"};
@@ -49,6 +49,7 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,9 +91,15 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setEnabled(false);
         jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
+
+        jButton2.setText("Editar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,6 +110,8 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE))
                 .addContainerGap())
@@ -119,7 +128,9 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -129,6 +140,21 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        FrmCadastrarCliente view = new FrmCadastrarCliente();
+        
+        view.idCliente = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+        view.fieldClienteNome.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+        view.fieldClienteEmail.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+        view.fieldClienteTelefone.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
+        view.fieldClienteCpf.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
+        
+        
+        view.setVisible(true);
+        
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,6 +208,7 @@ public class FrmConsultarCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

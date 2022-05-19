@@ -7,15 +7,12 @@ import DAO.FornecedorDAO;
 import Model.FornecedorModel;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author forster
- */
+
+
 public class FrmCadastrarFornecedor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmCadastrarEndereco
-     */
+    public int idFornecedor;
+    
     public FrmCadastrarFornecedor() {
         initComponents();
     }
@@ -44,7 +41,7 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel1.setText("Cadastrar novo fornecedor");
+        jLabel1.setText("Cadastrar fornecedor");
 
         jLabel2.setText("Nome");
 
@@ -73,7 +70,7 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(202, Short.MAX_VALUE)
+                .addContainerGap(242, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(214, 214, 214))
             .addGroup(layout.createSequentialGroup()
@@ -141,12 +138,28 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
         
         FornecedorDAO dao = new FornecedorDAO();
         
-        boolean resultado = dao.create(model);
+        boolean resultado;
+        
+        if(idFornecedor == 0){
+            resultado = dao.create(model);
+        }else{
+            model.setId(idFornecedor);
+            
+            resultado = dao.update(model);
+            
+            idFornecedor = 0;
+            
+            FrmConsultarFornecedor view = new FrmConsultarFornecedor();
+            
+            view.populateTable();
+            
+            view.setVisible(true);
+        }
         
         if(resultado){
-            JOptionPane.showMessageDialog(null, "Fornecedor inserido.", "SUCESSO", 2);
+            JOptionPane.showMessageDialog(null, "Fornecedor inserido/editado.", "SUCESSO", 2);
         }else{
-            JOptionPane.showMessageDialog(null, "Falha ao inserir fornecedor.", "ERRO", 2);
+            JOptionPane.showMessageDialog(null, "Falha ao inserir/editar fornecedor.", "ERRO", 2);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -189,10 +202,10 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField fieldFornecedorCnpj;
-    private javax.swing.JTextField fieldFornecedorEmail;
-    private javax.swing.JTextField fieldFornecedorNome;
-    private javax.swing.JTextField fieldFornecedorTelefone;
+    public javax.swing.JTextField fieldFornecedorCnpj;
+    public javax.swing.JTextField fieldFornecedorEmail;
+    public javax.swing.JTextField fieldFornecedorNome;
+    public javax.swing.JTextField fieldFornecedorTelefone;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

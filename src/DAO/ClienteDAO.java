@@ -48,7 +48,27 @@ public class ClienteDAO implements IDAO<ClienteModel> {
 
     @Override
     public boolean update(ClienteModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.cliente "
+                    + "set nome = "+"'"+objeto.getNome()+"',"
+                    + " email = "+"'"+objeto.getEmail()+"',"
+                    + " cpf = "+"'"+objeto.getCpf()+"',"
+                    + " telefone = "+"'"+objeto.getTelefone()+"' "
+                    + "where id = " + objeto.getId() + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao editar registro: " + e);
+            return false;
+        }
     }
 
     @Override

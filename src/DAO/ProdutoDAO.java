@@ -42,7 +42,26 @@ public class ProdutoDAO implements IDAO<ProdutoModel>{
 
     @Override
     public boolean update(ProdutoModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.produto "
+                    + "set descricao = "+"'"+objeto.getDescricao()+"',"
+                    + " valor_unitario = "+"'"+objeto.getValor_unitario()+"', "
+                    + " qtde_estoque = "+"'"+objeto.getQtde_estoque()+"' "
+                    + "where id = " + objeto.getId() + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao editar registro: " + e);
+            return false;
+        }
     }
 
     @Override

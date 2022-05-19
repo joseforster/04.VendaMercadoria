@@ -42,7 +42,27 @@ public class FornecedorDAO implements IDAO<FornecedorModel>{
 
     @Override
     public boolean update(FornecedorModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.fornecedor "
+                    + "set nome = "+"'"+objeto.getNome()+"',"
+                    + " email = "+"'"+objeto.getEmail()+"', "
+                    + " telefone = "+"'"+objeto.getTelefone()+"', "
+                    + " cnpj = "+"'"+objeto.getCnpj()+"' "
+                    + "where id = " + objeto.getId() + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao editar registro: " + e);
+            return false;
+        }
     }
 
     @Override

@@ -46,7 +46,25 @@ public class EnderecoDAO implements IDAO<EnderecoModel> {
 
     @Override
     public boolean update(EnderecoModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.endereco "
+                    + "set descricao = "+"'"+objeto.getDescricao()+"',"
+                    + " cep = "+"'"+objeto.getCep()+"' "
+                    + "where id = " + objeto.getId() + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao editar registro: " + e);
+            return false;
+        }
     }
 
     @Override

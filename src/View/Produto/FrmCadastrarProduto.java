@@ -14,9 +14,8 @@ import javax.swing.JOptionPane;
  */
 public class FrmCadastrarProduto extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmCadastrarEndereco
-     */
+    public int idProduto;
+            
     public FrmCadastrarProduto() {
         initComponents();
     }
@@ -131,12 +130,30 @@ public class FrmCadastrarProduto extends javax.swing.JFrame {
         
         ProdutoDAO dao = new ProdutoDAO();
         
-        boolean resultado = dao.create(model);
+        boolean resultado;
+        
+        if(idProduto == 0){
+            resultado = dao.create(model);
+        }else{
+            model.setId(idProduto);
+            
+            resultado = dao.update(model);
+            
+            idProduto = 0;
+            
+            FrmConsultarProduto view = new FrmConsultarProduto();
+            
+            view.populateTable();
+            
+            view.setVisible(true);
+            
+            this.dispose();
+        }
         
         if(resultado){
-            JOptionPane.showMessageDialog(null, "Produto inserido.", "SUCESSO", 2);
+            JOptionPane.showMessageDialog(null, "Produto inserido/editado.", "SUCESSO", 2);
         }else{
-            JOptionPane.showMessageDialog(null, "Falha ao inserir produto.", "ERRO", 2);
+            JOptionPane.showMessageDialog(null, "Falha ao inserir/editar produto.", "ERRO", 2);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -177,9 +194,9 @@ public class FrmCadastrarProduto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField fieldProdutoDescricao;
-    private javax.swing.JTextField fieldProdutoQtdeEstoque;
-    private javax.swing.JTextField fieldProdutoValorUnitario;
+    public javax.swing.JTextField fieldProdutoDescricao;
+    public javax.swing.JTextField fieldProdutoQtdeEstoque;
+    public javax.swing.JTextField fieldProdutoValorUnitario;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

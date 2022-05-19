@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class FrmCadastrarCliente extends javax.swing.JFrame {
 
+    public int idCliente = 0;
     /**
      * Creates new form FrmCadastrarEndereco
      */
@@ -58,7 +59,7 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
-        jLabel1.setText("Cadastrar novo cliente");
+        jLabel1.setText("Cadastrar cliente");
 
         jLabel2.setText("Nome");
 
@@ -95,7 +96,7 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(238, Short.MAX_VALUE)
+                .addContainerGap(278, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(214, 214, 214))
             .addGroup(layout.createSequentialGroup()
@@ -179,12 +180,30 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
         
         ClienteDAO dao = new ClienteDAO();
         
-        boolean resultado = dao.create(clienteModel);
+        boolean resultado;
+        
+        if(idCliente == 0){
+             resultado = dao.create(clienteModel);
+        }else{
+            clienteModel.setId(idCliente);
+            
+            resultado = dao.update(clienteModel);
+            
+            idCliente = 0;
+            
+            FrmConsultarCliente view = new FrmConsultarCliente();
+            
+            view.setVisible(true);
+            
+            view.populateTable();
+        }
+        
+        this.dispose();
         
         if(resultado){
-            JOptionPane.showMessageDialog(null, "Cliente inserido.", "SUCESSO", 2);
+            JOptionPane.showMessageDialog(null, "Cliente inserido/editado.", "SUCESSO", 2);
         }else{
-            JOptionPane.showMessageDialog(null, "Falha ao inserir cliente.", "ERRO", 2);
+            JOptionPane.showMessageDialog(null, "Falha ao inserir/editar cliente.", "ERRO", 2);
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -236,11 +255,11 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboBoxClienteEndereco;
-    private javax.swing.JTextField fieldClienteCpf;
-    private javax.swing.JTextField fieldClienteEmail;
-    private javax.swing.JTextField fieldClienteNome;
-    private javax.swing.JTextField fieldClienteTelefone;
+    public javax.swing.JComboBox<String> comboBoxClienteEndereco;
+    public javax.swing.JTextField fieldClienteCpf;
+    public javax.swing.JTextField fieldClienteEmail;
+    public javax.swing.JTextField fieldClienteNome;
+    public javax.swing.JTextField fieldClienteTelefone;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

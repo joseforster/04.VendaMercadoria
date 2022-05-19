@@ -24,7 +24,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="202" max="32767" attributes="0"/>
+              <EmptySpace pref="242" max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
           </Group>
@@ -98,7 +98,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Ubuntu" size="15" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Cadastrar novo fornecedor"/>
+        <Property name="text" type="java.lang.String" value="Cadastrar fornecedor"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -112,8 +112,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldFornecedorNome">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldFornecedorEmail">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
@@ -137,6 +143,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldFornecedorTelefone">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -144,6 +153,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="fieldFornecedorCnpj">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

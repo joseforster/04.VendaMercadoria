@@ -13,9 +13,8 @@ import javax.swing.JOptionPane;
  */
 public class FrmCadastrarEndereco extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmCadastrarEndereco
-     */
+    public int idEndereco = 0;
+    
     public FrmCadastrarEndereco() {
         initComponents();
     }
@@ -118,12 +117,31 @@ public class FrmCadastrarEndereco extends javax.swing.JFrame {
         
         EnderecoDAO dao = new EnderecoDAO();
         
-        boolean resultado = dao.create(model);
+        boolean resultado;
+        
+        if(idEndereco == 0){
+             resultado = dao.create(model);
+        }else{
+            model.setId(idEndereco);
+            
+            resultado = dao.update(model);
+            
+            idEndereco = 0;
+            
+            this.dispose();
+            
+            FrmConsultarEndereco view = new FrmConsultarEndereco();
+            
+            view.populateTable();
+            
+            view.setVisible(true);
+            
+        }
         
         if(resultado){
-            JOptionPane.showMessageDialog(null, "Endereço inserido.", "SUCESSO", 2);
+            JOptionPane.showMessageDialog(null, "Endereço inserido/editado.", "SUCESSO", 2);
         }else{
-            JOptionPane.showMessageDialog(null, "Falha ao inserir endereço.", "ERRO", 2);
+            JOptionPane.showMessageDialog(null, "Falha ao inserir/editar endereço.", "ERRO", 2);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -163,8 +181,8 @@ public class FrmCadastrarEndereco extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField fieldEnderecoCep;
-    private javax.swing.JTextField fieldEnderecoDescricao;
+    public javax.swing.JTextField fieldEnderecoCep;
+    public javax.swing.JTextField fieldEnderecoDescricao;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
