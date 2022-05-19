@@ -69,7 +69,7 @@ public class ProdutoDAO implements IDAO<ProdutoModel>{
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.produto;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.produto where ativo = 'S';";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -79,7 +79,7 @@ public class ProdutoDAO implements IDAO<ProdutoModel>{
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select id, descricao, valor_unitario, qtde_estoque from prog_aplicacoes.produto;";
+            String sql = "select id, descricao, valor_unitario, qtde_estoque from prog_aplicacoes.produto where ativo = 'S' order by id;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
@@ -118,15 +118,32 @@ public class ProdutoDAO implements IDAO<ProdutoModel>{
     }
 
     @Override
-    public boolean delete(ProdutoModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean delete(int id) {
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.produto "
+                    + "set ativo = 'N' "
+                    + "where id = " + id + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao excluir registro: " + e);
+            return false;
+        }
     }
     
     public String[] GetAllJList(){
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.produto;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.produto where ativo = 'S';";
 
             ResultSet rsCount = st.executeQuery(sqlCount);
 
@@ -136,7 +153,7 @@ public class ProdutoDAO implements IDAO<ProdutoModel>{
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
 
-            String sql = "select id ||' - '||descricao||' - Valor Unitário: R$ '||valor_unitario||' - Qtde Estoque: '||qtde_estoque as produto from prog_aplicacoes.produto order by produto.id asc;";
+            String sql = "select id ||' - '||descricao||' - Valor Unitário: R$ '||valor_unitario||' - Qtde Estoque: '||qtde_estoque as produto from prog_aplicacoes.produto where ativo = 'S' order by produto.id asc;";
 
             ResultSet rsSelect = st.executeQuery(sql);
 
@@ -161,7 +178,4 @@ public class ProdutoDAO implements IDAO<ProdutoModel>{
             return new String[0];
         }
     }
-    
-    
-    
 }

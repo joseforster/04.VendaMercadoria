@@ -70,7 +70,7 @@ public class FornecedorDAO implements IDAO<FornecedorModel>{
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.fornecedor;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.fornecedor where ativo = 'S';";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -80,7 +80,7 @@ public class FornecedorDAO implements IDAO<FornecedorModel>{
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select *  from prog_aplicacoes.fornecedor;";
+            String sql = "select *  from prog_aplicacoes.fornecedor where ativo = 'S';";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
@@ -122,15 +122,32 @@ public class FornecedorDAO implements IDAO<FornecedorModel>{
     }
 
     @Override
-    public boolean delete(FornecedorModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean delete(int id) {
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.fornecedor "
+                    + "set ativo = 'N' "
+                    + "where id = " + id + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao excluir registro: " + e);
+            return false;
+        }
     }
         
     public String[] GetAllComboBox(){
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.fornecedor;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.fornecedor where ativo = 'S';";
 
             ResultSet rsCount = st.executeQuery(sqlCount);
 
@@ -140,7 +157,7 @@ public class FornecedorDAO implements IDAO<FornecedorModel>{
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
 
-            String sql = "select id ||' - '||nome||' - '||cnpj as fornecedor from prog_aplicacoes.fornecedor;";
+            String sql = "select id ||' - '||nome||' - '||cnpj as fornecedor from prog_aplicacoes.fornecedor where ativo = 'S';";
 
             ResultSet rsSelect = st.executeQuery(sql);
 

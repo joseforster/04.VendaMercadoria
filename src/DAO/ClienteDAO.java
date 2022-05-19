@@ -76,7 +76,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sqlCount = "select count(id) as qtde FROM prog_aplicacoes.cliente";
+            String sqlCount = "select count(id) as qtde FROM prog_aplicacoes.cliente where ativo = 'S';";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -86,7 +86,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select * FROM prog_aplicacoes.cliente;";
+            String sql = "select * FROM prog_aplicacoes.cliente where ativo = 'S';";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
@@ -128,8 +128,25 @@ public class ClienteDAO implements IDAO<ClienteModel> {
     }
 
     @Override
-    public boolean delete(ClienteModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean delete(int id) {
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.cliente "
+                    + "set ativo = 'N' "
+                    + "where id = " + id + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao excluir registro: " + e);
+            return false;
+        }
     }
     
     public String[][] GetClientesPorEndereco() {
@@ -138,7 +155,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
             
             String sqlCount = "select count(c.id) as qtde FROM prog_aplicacoes.cliente as c " +
             "inner join prog_aplicacoes.cliente_endereco as ce on c.id = ce.cliente_id " +
-            "inner join prog_aplicacoes.endereco as e on e.id = ce.endereco_id";
+            "inner join prog_aplicacoes.endereco as e on e.id = ce.endereco_id;";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -148,14 +165,14 @@ public class ClienteDAO implements IDAO<ClienteModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select c.id, c.nome, e.descricao as endereco FROM prog_aplicacoes.cliente as c " +
+            String sql = "select c.id, c.nome, e.descricao as endereco, c.ativo FROM prog_aplicacoes.cliente as c " +
             "inner join prog_aplicacoes.cliente_endereco as ce on c.id = ce.cliente_id " +
             "inner join prog_aplicacoes.endereco as e on e.id = ce.endereco_id " +
             "order by c.id asc;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
-            String[] colunas = new String[]{"Id","Nome","Endereço"};
+            String[] colunas = new String[]{"Id","Nome","Endereço","Ativo"};
             
             String [][] data = new String[quantidadeRegistros][colunas.length];
             
@@ -165,10 +182,12 @@ public class ClienteDAO implements IDAO<ClienteModel> {
                 int id = rsSelect.getInt("id");
                 String nome = rsSelect.getString("nome");
                 String endereco = rsSelect.getString("endereco");
+                String ativo = rsSelect.getString("ativo");
           
                 data[i][0] = id+"";
                 data[i][1] = nome;
                 data[i][2] = endereco;
+                data[i][3] = ativo;
         
                 
                 i++;
@@ -187,7 +206,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.cliente;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.cliente where ativo = 'S';";
 
             ResultSet rsCount = st.executeQuery(sqlCount);
 
@@ -197,7 +216,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
 
-            String sql = "select id||' - '||nome||' - '||cpf as cliente  from prog_aplicacoes.cliente order by cliente.nome;";
+            String sql = "select id||' - '||nome||' - '||cpf as cliente  from prog_aplicacoes.cliente where ativo = 'S' order by cliente.nome;";
 
             ResultSet rsSelect = st.executeQuery(sql);
 

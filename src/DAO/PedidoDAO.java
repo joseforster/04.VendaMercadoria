@@ -72,7 +72,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.pedido;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.pedido where ativo ='S';";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -85,6 +85,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
             String sql = "select ped.id, cast(ped.data as date) as dt, c.nome as cliente, ped.endereco_entrega as endereco, ped.observacao " +
             "from prog_aplicacoes.pedido as ped " +
             "inner join prog_aplicacoes.cliente as c on c.id = ped.cliente_id " +
+            "where ped.ativo ='S' " +
             "order by ped.id desc;";
             
             ResultSet rsSelect = st.executeQuery(sql);
@@ -101,6 +102,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
                 String cliente = rsSelect.getString("cliente");
                 String endereco = rsSelect.getString("endereco");
                 String observacao = rsSelect.getString("observacao");
+                
                 
      
                 
@@ -128,8 +130,26 @@ public class PedidoDAO implements IDAO<PedidoModel>{
     }
 
     @Override
-    public boolean delete(PedidoModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean delete(int id) {
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.pedido "
+                    + "set ativo = 'N' "
+                    + "where id = " + id + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao excluir registro: " + e);
+            
+            return false;
+        }
     }
     
     public String[][] GetProdutosPorPedido(){
@@ -146,7 +166,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select ped.id, cast(ped.data as date) as dt, c.nome as cliente, prod.descricao as produto, ip.qtde, ip.valor_item as valor " +
+            String sql = "select ped.id, cast(ped.data as date) as dt, c.nome as cliente, prod.descricao as produto, ip.qtde, ip.valor_item as valor, ped.ativo " +
             "from prog_aplicacoes.pedido as ped " +
             "inner join prog_aplicacoes.item_pedido as ip ON ip.pedido_id = ped.id " +
             "inner join prog_aplicacoes.produto as prod on ip.produto_id = prod.id " +
@@ -155,7 +175,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
             
             ResultSet rsSelect = st.executeQuery(sql);
             
-            String[] colunas = new String[]{"Id","Data","Cliente","Produto","Quantidade","Valor"};
+            String[] colunas = new String[]{"Id","Data","Cliente","Produto","Quantidade","Valor","Ativo"};
             
             String [][] data = new String[quantidadeRegistros][colunas.length];
             
@@ -168,6 +188,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
                 String produto = rsSelect.getString("produto");
                 String quantidade = rsSelect.getString("qtde");
                 String valor = rsSelect.getString("valor");
+                String ativo = rsSelect.getString("ativo");
                 
      
                 
@@ -177,6 +198,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
                 data[i][3] = produto;
                 data[i][4] = quantidade;
                 data[i][5] = valor;
+                data[i][6] = ativo;
                 
                 i++;
                 

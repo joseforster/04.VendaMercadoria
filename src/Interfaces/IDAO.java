@@ -13,7 +13,7 @@ public interface IDAO <T> {
     
     public T GetById(int id);
     
-    public boolean delete(T objeto);
+    public boolean delete(int id);
    
     
 }

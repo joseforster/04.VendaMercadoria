@@ -70,7 +70,7 @@ public class CompraDAO implements IDAO<CompraModel>{
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.compra;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.compra where ativo = 'S';";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -81,7 +81,7 @@ public class CompraDAO implements IDAO<CompraModel>{
             }
             
             String sql = "select compra.id, TO_CHAR(cast(data as timestamp), 'DD-MM-YYYY HH24:MI') as dt, f.nome as fornecedor from prog_aplicacoes.compra " +
-            "inner join prog_aplicacoes.fornecedor as f on f.id = compra.fornecedor_id " +
+            "inner join prog_aplicacoes.fornecedor as f on f.id = compra.fornecedor_id where compra.ativo = 'S' " +
             "order by compra.id desc;";
             
             ResultSet rsSelect = st.executeQuery(sql);
@@ -120,8 +120,25 @@ public class CompraDAO implements IDAO<CompraModel>{
     }
 
     @Override
-    public boolean delete(CompraModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean delete(int id) {
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.compra "
+                    + "set ativo = 'N' "
+                    + "where id = " + id + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao excluir registro: " + e);
+            return false;
+        }
     }
     
     public String[][] GetProdutosPorCompra(){
@@ -143,7 +160,8 @@ public class CompraDAO implements IDAO<CompraModel>{
             "pr.descricao as produto," +
             "ic.qtde," +
             "ic.valor," +
-            "f.nome as fornecedor " +
+            "f.nome as fornecedor, "
+            + "compra.ativo " +
             "from prog_aplicacoes.compra " +
             "inner join prog_aplicacoes.fornecedor as f on f.id = compra.fornecedor_id " +
             "inner join prog_aplicacoes.item_compra as ic on ic.compra_id = compra.id " +
@@ -154,7 +172,7 @@ public class CompraDAO implements IDAO<CompraModel>{
             
             ResultSet rsSelect = st.executeQuery(sql);
             
-            String[] colunas = new String[]{"Id","Data","Produto","Quantidade", "Valor Total", "Fornecedor"};
+            String[] colunas = new String[]{"Id","Data","Produto","Quantidade", "Valor Total", "Fornecedor", "Ativo"};
             
             String [][] data = new String[quantidadeRegistros][colunas.length];
             
@@ -167,6 +185,7 @@ public class CompraDAO implements IDAO<CompraModel>{
                 String qtde = rsSelect.getString("qtde");
                 String valor = rsSelect.getString("valor");
                 String fornecedor = rsSelect.getString("fornecedor");
+                String ativo = rsSelect.getString("ativo");
      
                 
                 data[i][0] = id+"";
@@ -175,6 +194,7 @@ public class CompraDAO implements IDAO<CompraModel>{
                 data[i][3] = qtde;
                 data[i][4] = valor;
                 data[i][5] = fornecedor;
+                data[i][6] = ativo;
                 
                 i++;
                 

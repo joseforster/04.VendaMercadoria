@@ -72,7 +72,7 @@ public class EnderecoDAO implements IDAO<EnderecoModel> {
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.endereco;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.endereco where ativo = 'S';";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -82,7 +82,7 @@ public class EnderecoDAO implements IDAO<EnderecoModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select id, descricao, cep from prog_aplicacoes.endereco;";
+            String sql = "select id, descricao, cep from prog_aplicacoes.endereco where ativo = 'S';";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
@@ -119,15 +119,32 @@ public class EnderecoDAO implements IDAO<EnderecoModel> {
     }
 
     @Override
-    public boolean delete(EnderecoModel objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean delete(int id) {
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "update prog_aplicacoes.endereco "
+                    + "set ativo = 'N' "
+                    + "where id = " + id + ";";
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao excluir registro: " + e);
+            return false;
+        }
     }
     
     public String[] GetAllComboBox(){
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sqlCount = "select count(id) as qtde from prog_aplicacoes.endereco;";
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.endereco where ativo = 'S';";
             
             ResultSet rsCount = st.executeQuery(sqlCount);
             
@@ -137,7 +154,7 @@ public class EnderecoDAO implements IDAO<EnderecoModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select id ||' - '||descricao||' - '||cep as endereco from prog_aplicacoes.endereco;";
+            String sql = "select id ||' - '||descricao||' - '||cep as endereco from prog_aplicacoes.endereco where ativo = 'S';";
             
             ResultSet rsSelect = st.executeQuery(sql);
             

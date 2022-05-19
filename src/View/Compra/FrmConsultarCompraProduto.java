@@ -28,7 +28,7 @@ public class FrmConsultarCompraProduto extends javax.swing.JFrame {
     private void populateTable(){
         
         String[][] data = new CompraDAO().GetProdutosPorCompra();
-        String[] colunas = new String[]{"Id","Data","Produto","Quantidade", "Valor Total", "Fornecedor"};
+        String[] colunas = new String[]{"Id","Data","Produto","Quantidade", "Valor Total", "Fornecedor","Ativo"};
         
         DefaultTableModel tableModel = new DefaultTableModel(data, colunas);
         
@@ -64,22 +64,22 @@ public class FrmConsultarCompraProduto extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Compra Id", "Data", "Produto", "Quantidade", "Valor", "Fornecedor"
+                "Compra Id", "Data", "Produto", "Quantidade", "Valor", "Fornecedor", "Ativo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
