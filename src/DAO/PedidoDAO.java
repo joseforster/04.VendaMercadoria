@@ -86,7 +86,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
             "from prog_aplicacoes.pedido as ped " +
             "inner join prog_aplicacoes.cliente as c on c.id = ped.cliente_id " +
             "where ped.ativo ='S' " +
-            "order by ped.id desc;";
+            "order by ped.id;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
@@ -171,7 +171,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
             "inner join prog_aplicacoes.item_pedido as ip ON ip.pedido_id = ped.id " +
             "inner join prog_aplicacoes.produto as prod on ip.produto_id = prod.id " +
             "inner join prog_aplicacoes.cliente as c on c.id = ped.cliente_id " +
-            "order by ped.id desc;";
+            "order by ped.id;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             

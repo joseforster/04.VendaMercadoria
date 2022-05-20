@@ -80,7 +80,7 @@ public class FornecedorDAO implements IDAO<FornecedorModel>{
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select *  from prog_aplicacoes.fornecedor where ativo = 'S';";
+            String sql = "select *  from prog_aplicacoes.fornecedor where ativo = 'S' order by id;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             

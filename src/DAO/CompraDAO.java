@@ -82,7 +82,7 @@ public class CompraDAO implements IDAO<CompraModel>{
             
             String sql = "select compra.id, TO_CHAR(cast(data as timestamp), 'DD-MM-YYYY HH24:MI') as dt, f.nome as fornecedor from prog_aplicacoes.compra " +
             "inner join prog_aplicacoes.fornecedor as f on f.id = compra.fornecedor_id where compra.ativo = 'S' " +
-            "order by compra.id desc;";
+            "order by compra.id;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
@@ -166,7 +166,7 @@ public class CompraDAO implements IDAO<CompraModel>{
             "inner join prog_aplicacoes.fornecedor as f on f.id = compra.fornecedor_id " +
             "inner join prog_aplicacoes.item_compra as ic on ic.compra_id = compra.id " +
             "inner join prog_aplicacoes.produto as pr on pr.id = ic.produto_id " +
-            "order by compra.id desc;";
+            "order by compra.id;";
             
             System.out.println(sql);
             

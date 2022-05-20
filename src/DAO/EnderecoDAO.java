@@ -82,7 +82,7 @@ public class EnderecoDAO implements IDAO<EnderecoModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select id, descricao, cep from prog_aplicacoes.endereco where ativo = 'S';";
+            String sql = "select id, descricao, cep from prog_aplicacoes.endereco where ativo = 'S' order by id;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             

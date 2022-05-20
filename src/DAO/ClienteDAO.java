@@ -86,7 +86,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select * FROM prog_aplicacoes.cliente where ativo = 'S';";
+            String sql = "select * FROM prog_aplicacoes.cliente where ativo = 'S' order by id;";
             
             ResultSet rsSelect = st.executeQuery(sql);
             
