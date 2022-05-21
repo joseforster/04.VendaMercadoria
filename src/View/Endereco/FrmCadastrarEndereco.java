@@ -6,6 +6,8 @@ package View.Endereco;
 import Model.EnderecoModel;
 import DAO.EnderecoDAO;
 import javax.swing.JOptionPane;
+import FieldHelper.FormatField;
+import FieldHelper.ValidateField;
 
 /**
  *
@@ -17,6 +19,10 @@ public class FrmCadastrarEndereco extends javax.swing.JFrame {
     
     public FrmCadastrarEndereco() {
         initComponents();
+        
+        FormatField.FormatCEP(fieldEnderecoCep);
+        
+        
     }
 
     /**
@@ -32,9 +38,9 @@ public class FrmCadastrarEndereco extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         fieldEnderecoDescricao = new javax.swing.JTextField();
-        fieldEnderecoCep = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        fieldEnderecoCep = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,8 +102,8 @@ public class FrmCadastrarEndereco extends javax.swing.JFrame {
                     .addComponent(fieldEnderecoDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fieldEnderecoCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(fieldEnderecoCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -113,35 +119,53 @@ public class FrmCadastrarEndereco extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        EnderecoModel model = new EnderecoModel(fieldEnderecoDescricao.getText(), fieldEnderecoCep.getText());
+        boolean fieldsAreValid = true;
         
-        EnderecoDAO dao = new EnderecoDAO();
-        
-        boolean resultado;
-        
-        if(idEndereco == 0){
-             resultado = dao.create(model);
-        }else{
-            model.setId(idEndereco);
-            
-            resultado = dao.update(model);
-            
-            idEndereco = 0;
-            
-            this.dispose();
-            
-            FrmConsultarEndereco view = new FrmConsultarEndereco();
-            
-            view.populateTable();
-            
-            view.setVisible(true);
-            
+        if(fieldEnderecoDescricao.getText().isBlank() || fieldEnderecoDescricao.getText().isBlank()){
+            fieldsAreValid = false;
+            JOptionPane.showMessageDialog(null, "Descrição é obrigatório.", "ERRO", 2);
         }
         
-        if(resultado){
-            JOptionPane.showMessageDialog(null, "Endereço inserido/editado.", "SUCESSO", 2);
-        }else{
-            JOptionPane.showMessageDialog(null, "Falha ao inserir/editar endereço.", "ERRO", 2);
+        if(!FieldHelper.ValidateField.validarCEP(FormatField.removeFormat(fieldEnderecoCep.getText()))){
+            fieldsAreValid = false;
+            JOptionPane.showMessageDialog(null, "CEP inválido.", "ERRO", 2);
+        }
+        
+        if(fieldsAreValid)
+        {
+            EnderecoModel model = new EnderecoModel(
+                    fieldEnderecoDescricao.getText(), 
+                    FormatField.removeFormat(fieldEnderecoCep.getText())
+            );
+
+            EnderecoDAO dao = new EnderecoDAO();
+
+            boolean resultado;
+
+            if(idEndereco == 0){
+                 resultado = dao.create(model);
+            }else{
+                model.setId(idEndereco);
+
+                resultado = dao.update(model);
+
+                idEndereco = 0;
+
+                this.dispose();
+
+                FrmConsultarEndereco view = new FrmConsultarEndereco();
+
+                view.populateTable();
+
+                view.setVisible(true);
+
+            }
+
+            if(resultado){
+                JOptionPane.showMessageDialog(null, "Endereço inserido/editado.", "SUCESSO", 2);
+            }else{
+                JOptionPane.showMessageDialog(null, "Falha ao inserir/editar endereço.", "ERRO", 2);
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -181,7 +205,7 @@ public class FrmCadastrarEndereco extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JTextField fieldEnderecoCep;
+    public javax.swing.JFormattedTextField fieldEnderecoCep;
     public javax.swing.JTextField fieldEnderecoDescricao;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -6,6 +6,8 @@ package View.Fornecedor;
 import DAO.FornecedorDAO;
 import Model.FornecedorModel;
 import javax.swing.JOptionPane;
+import FieldHelper.FormatField;
+import FieldHelper.ValidateField;
 
 
 
@@ -15,6 +17,9 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
     
     public FrmCadastrarFornecedor() {
         initComponents();
+        
+        FormatField.FormatTelefone(fieldFornecedorTelefone);
+        FormatField.FormatCNPJ(fieldFornecedorCnpj);
     }
 
     /**
@@ -34,9 +39,9 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        fieldFornecedorTelefone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        fieldFornecedorCnpj = new javax.swing.JTextField();
+        fieldFornecedorTelefone = new javax.swing.JFormattedTextField();
+        fieldFornecedorCnpj = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,10 +94,10 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fieldFornecedorCnpj)
                             .addComponent(fieldFornecedorNome)
+                            .addComponent(fieldFornecedorEmail)
                             .addComponent(fieldFornecedorTelefone)
-                            .addComponent(fieldFornecedorEmail))))
+                            .addComponent(fieldFornecedorCnpj))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -110,12 +115,12 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fieldFornecedorTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(fieldFornecedorTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fieldFornecedorCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(fieldFornecedorCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -131,36 +136,59 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        FornecedorModel model = new FornecedorModel(fieldFornecedorNome.getText(), 
-                fieldFornecedorEmail.getText(), 
-                fieldFornecedorTelefone.getText(),
-                fieldFornecedorCnpj.getText());
         
-        FornecedorDAO dao = new FornecedorDAO();
+        boolean fieldsAreValid = true;
         
-        boolean resultado;
-        
-        if(idFornecedor == 0){
-            resultado = dao.create(model);
-        }else{
-            model.setId(idFornecedor);
-            
-            resultado = dao.update(model);
-            
-            idFornecedor = 0;
-            
-            FrmConsultarFornecedor view = new FrmConsultarFornecedor();
-            
-            view.populateTable();
-            
-            view.setVisible(true);
+        if(fieldFornecedorNome.getText().isBlank() || fieldFornecedorNome.getText().isEmpty()){
+            fieldsAreValid = false;
+            JOptionPane.showMessageDialog(null, "Nome é obrigatório.", "ERRO", 2);
         }
         
-        if(resultado){
-            JOptionPane.showMessageDialog(null, "Fornecedor inserido/editado.", "SUCESSO", 2);
-        }else{
-            JOptionPane.showMessageDialog(null, "Falha ao inserir/editar fornecedor.", "ERRO", 2);
+        
+        if(!ValidateField.validarCNPJ(FormatField.removeFormat(fieldFornecedorCnpj.getText()))){
+            fieldsAreValid = false;
+            JOptionPane.showMessageDialog(null, "CNPJ inválido.", "ERRO", 2);
         }
+        
+        if(!ValidateField.validarTelefone(FormatField.removeFormat(fieldFornecedorTelefone.getText()))){
+            fieldsAreValid = false;
+            JOptionPane.showMessageDialog(null, "Telefone inválido.", "ERRO", 2);
+        }
+        
+        if(fieldsAreValid){
+            FornecedorModel model = new FornecedorModel(fieldFornecedorNome.getText(), 
+            fieldFornecedorEmail.getText(), 
+            FormatField.removeFormat(fieldFornecedorTelefone.getText()),
+            FormatField.removeFormat(fieldFornecedorCnpj.getText())
+            );
+
+            FornecedorDAO dao = new FornecedorDAO();
+
+            boolean resultado;
+
+            if(idFornecedor == 0){
+                resultado = dao.create(model);
+            }else{
+                model.setId(idFornecedor);
+
+                resultado = dao.update(model);
+
+                idFornecedor = 0;
+
+                FrmConsultarFornecedor view = new FrmConsultarFornecedor();
+
+                view.populateTable();
+
+                view.setVisible(true);
+            }
+
+            if(resultado){
+                JOptionPane.showMessageDialog(null, "Fornecedor inserido/editado.", "SUCESSO", 2);
+            }else{
+                JOptionPane.showMessageDialog(null, "Falha ao inserir/editar fornecedor.", "ERRO", 2);
+            }     
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -202,10 +230,10 @@ public class FrmCadastrarFornecedor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JTextField fieldFornecedorCnpj;
+    public javax.swing.JFormattedTextField fieldFornecedorCnpj;
     public javax.swing.JTextField fieldFornecedorEmail;
     public javax.swing.JTextField fieldFornecedorNome;
-    public javax.swing.JTextField fieldFornecedorTelefone;
+    public javax.swing.JFormattedTextField fieldFornecedorTelefone;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

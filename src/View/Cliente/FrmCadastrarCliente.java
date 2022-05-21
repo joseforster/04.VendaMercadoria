@@ -10,6 +10,8 @@ import Model.EnderecoModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import FieldHelper.FormatField;
+import FieldHelper.ValidateField;
 
 /**
  *
@@ -26,10 +28,12 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
         
         String[] sourceClienteComboBox = new EnderecoDAO().GetAllComboBox();
         
-        
         for(var endereco : sourceClienteComboBox){
             comboBoxClienteEndereco.addItem(endereco.toString());
         }
+        
+        FormatField.FormatCPF(fieldClienteCpf);
+        FormatField.FormatTelefone(fieldClienteTelefone);
         
     }
 
@@ -50,11 +54,11 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        fieldClienteTelefone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        fieldClienteCpf = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         comboBoxClienteEndereco = new javax.swing.JComboBox<>();
+        fieldClienteTelefone = new javax.swing.JFormattedTextField();
+        fieldClienteCpf = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,11 +120,11 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fieldClienteCpf)
                             .addComponent(fieldClienteNome)
-                            .addComponent(fieldClienteTelefone)
                             .addComponent(fieldClienteEmail)
-                            .addComponent(comboBoxClienteEndereco, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(comboBoxClienteEndereco, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fieldClienteTelefone)
+                            .addComponent(fieldClienteCpf))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -136,10 +140,10 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fieldClienteEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fieldClienteTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(fieldClienteTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fieldClienteCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,7 +152,7 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(comboBoxClienteEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -163,47 +167,68 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        boolean fieldsAreValid = true;
         
-        String[] endereco = comboBoxClienteEndereco.getSelectedItem().toString().split(" - ");
-        
-        EnderecoModel enderecoModel = new EnderecoModel(endereco[1], endereco[2]);
-        
-        enderecoModel.setId(Integer.parseInt(endereco[0]));
-        
-        
-        ClienteModel clienteModel = new ClienteModel(fieldClienteNome.getText(), 
-                fieldClienteEmail.getText(), 
-                fieldClienteTelefone.getText(),
-                fieldClienteCpf.getText(),
-                enderecoModel
-        );
-        
-        ClienteDAO dao = new ClienteDAO();
-        
-        boolean resultado;
-        
-        if(idCliente == 0){
-             resultado = dao.create(clienteModel);
-        }else{
-            clienteModel.setId(idCliente);
-            
-            resultado = dao.update(clienteModel);
-            
-            idCliente = 0;
-            
-            FrmConsultarCliente view = new FrmConsultarCliente();
-            
-            view.setVisible(true);
-            
-            view.populateTable();
+        if(fieldClienteNome.getText().isBlank() || fieldClienteNome.getText().isEmpty()){
+            fieldsAreValid = false;
+            JOptionPane.showMessageDialog(null, "Nome é obrigatório.", "ERRO", 2);
         }
         
-        this.dispose();
         
-        if(resultado){
-            JOptionPane.showMessageDialog(null, "Cliente inserido/editado.", "SUCESSO", 2);
-        }else{
-            JOptionPane.showMessageDialog(null, "Falha ao inserir/editar cliente.", "ERRO", 2);
+        if(!ValidateField.validarCPF(FormatField.removeFormat(fieldClienteCpf.getText()))){
+            fieldsAreValid = false;
+            JOptionPane.showMessageDialog(null, "CPF inválido.", "ERRO", 2);
+        }
+        
+        if(!ValidateField.validarTelefone(FormatField.removeFormat(fieldClienteTelefone.getText()))){
+            fieldsAreValid = false;
+            JOptionPane.showMessageDialog(null, "Telefone inválido.", "ERRO", 2);
+        }
+            
+        
+        if(fieldsAreValid)
+        {
+            String[] endereco = comboBoxClienteEndereco.getSelectedItem().toString().split(" - ");
+        
+            EnderecoModel enderecoModel = new EnderecoModel(endereco[1], endereco[2]);
+
+            enderecoModel.setId(Integer.parseInt(endereco[0]));
+
+
+            ClienteModel clienteModel = new ClienteModel(fieldClienteNome.getText(), 
+                    fieldClienteEmail.getText(),
+                    FormatField.removeFormat(fieldClienteCpf.getText()) ,
+                    FormatField.removeFormat(fieldClienteTelefone.getText()),
+                    enderecoModel
+            );
+
+            ClienteDAO dao = new ClienteDAO();
+
+            boolean resultado;
+
+            if(idCliente == 0){
+                 resultado = dao.create(clienteModel);
+            }else{
+                clienteModel.setId(idCliente);
+
+                resultado = dao.update(clienteModel);
+
+                idCliente = 0;
+
+                FrmConsultarCliente view = new FrmConsultarCliente();
+
+                view.setVisible(true);
+
+                view.populateTable();
+            }
+
+            this.dispose();
+
+            if(resultado){
+                JOptionPane.showMessageDialog(null, "Cliente inserido/editado.", "SUCESSO", 2);
+            }else{
+                JOptionPane.showMessageDialog(null, "Falha ao inserir/editar cliente.", "ERRO", 2);
+            }
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -256,10 +281,10 @@ public class FrmCadastrarCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JComboBox<String> comboBoxClienteEndereco;
-    public javax.swing.JTextField fieldClienteCpf;
+    public javax.swing.JFormattedTextField fieldClienteCpf;
     public javax.swing.JTextField fieldClienteEmail;
     public javax.swing.JTextField fieldClienteNome;
-    public javax.swing.JTextField fieldClienteTelefone;
+    public javax.swing.JFormattedTextField fieldClienteTelefone;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
