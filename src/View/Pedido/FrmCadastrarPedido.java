@@ -303,21 +303,26 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
             Integer.parseInt(fieldPedidoQuantidade.getValue().toString()), 
             pedidoModel);
     
-    pedidoModel.getProdutos().add(itemPedidoModel);
+    boolean sucesso = new PedidoDAO().adicionarItem(itemPedidoModel);
     
-    if(!jButton3.isEnabled()){
+    if(sucesso){
         jButton3.setEnabled(true);
+        jButton5.setEnabled(true);
+        
+        pedidoModel.getProdutos().add(itemPedidoModel);
+        
+        this.total += itemPedidoModel.getValorTotal();
+    
+        fieldValorTotal.setText("R$ " + String.format("%.2f", total));
+
+        populateTable();
+
+        JOptionPane.showMessageDialog(null, "Produto inserido no pedido. \nValor Total: R$ " + itemPedidoModel.getValorTotal(), "SUCESSO", 2);
+        
+    }else{
+        JOptionPane.showMessageDialog(null, "Erro ao inserir produto ", "ERRO", 2);
     }
     
-    jButton5.setEnabled(true);
-    
-    this.total += itemPedidoModel.getValorTotal();
-    
-    fieldValorTotal.setText("R$ " + String.format("%.2f", total));
-    
-    populateTable();
-    
-    JOptionPane.showMessageDialog(null, "Produto inserido no pedido. \nValor Total: R$ " + itemPedidoModel.getValorTotal(), "SUCESSO", 2);
         
     }//GEN-LAST:event_jButton2ActionPerformed
 

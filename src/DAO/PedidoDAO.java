@@ -6,6 +6,7 @@ package DAO;
 
 import BD.ConexaoBD;
 import Interfaces.IDAO;
+import Model.ItemPedidoModel;
 import Model.PedidoModel;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -28,28 +29,6 @@ public class PedidoDAO implements IDAO<PedidoModel>{
             System.out.println(sql);
             
             st.executeUpdate(sql);
-            
-            for(var produto : objeto.getProdutos()){
-                    sql = "insert into prog_aplicacoes.item_pedido(pedido_id, produto_id, qtde,valor_item) values ("+
-                      objeto.getId()+","+
-                      produto.getProduto().getId()+","+
-                      produto.getQuantidade()+","+
-                      produto.getValorTotal()
-                      +");";
-                
-                System.out.println(sql);
-                        
-                st.executeUpdate(sql);
-                
-                sql = "update prog_aplicacoes.produto " +
-                "set qtde_estoque = cast(produto.qtde_estoque as int) - " + produto.getQuantidade() +
-                " where id = " + produto.getProduto().getId() + ";";
-                
-                System.out.println(sql);
-                        
-                st.executeUpdate(sql);
-            }
-
             
             return true;
             
@@ -294,5 +273,42 @@ public class PedidoDAO implements IDAO<PedidoModel>{
             return new String[0][0];
         }
     }
+    
+    public boolean adicionarItem(ItemPedidoModel model){
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "insert into prog_aplicacoes.item_pedido(pedido_id, produto_id, qtde,valor_item) values ("
+                    + model.getPedido().getId() + ", "
+                    + model.getProduto().getId() + ","
+                    + model.getQuantidade() + ","
+                    + model.getValorTotal() +");";
+            
+                    
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+    
+            
+            sql = "update prog_aplicacoes.produto " +
+            "set qtde_estoque = cast(produto.qtde_estoque as int) - " + model.getQuantidade() +
+            " where id = " + model.getProduto().getId() + ";";
+
+            System.out.println(sql);
+
+            st.executeUpdate(sql);
+            
+
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao adicionar produto: " + e);
+            return false;
+        }
+    }
+    
     
 }
