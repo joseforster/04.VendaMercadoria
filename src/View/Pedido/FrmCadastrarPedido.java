@@ -12,6 +12,7 @@ import Model.PedidoModel;
 import Model.ClienteModel;
 import Model.ItemPedidoModel;
 import Model.ProdutoModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -41,6 +42,17 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
         if(pedidoModel.getProdutos().isEmpty()){
             jButton3.setEnabled(false);
         }
+    }
+    
+    public void populateTable(){
+        
+        String[][] data = new PedidoDAO().GetProdutoByPedidoId(pedidoModel);
+        String[] colunas = new String[]{"Produto","Valor Unitário","Quantidade","Valor Total"};
+        
+        DefaultTableModel tableModel = new DefaultTableModel(data, colunas);
+        
+        jTable2.setModel(tableModel);
+     
     }
 
     /**
@@ -228,7 +240,7 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)))
+                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -302,6 +314,8 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
     this.total += itemPedidoModel.getValorTotal();
     
     fieldValorTotal.setText("R$ " + String.format("%.2f", total));
+    
+    populateTable();
     
     JOptionPane.showMessageDialog(null, "Produto inserido no pedido. \nValor Total: R$ " + itemPedidoModel.getValorTotal(), "SUCESSO", 2);
         

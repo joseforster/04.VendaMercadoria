@@ -240,4 +240,59 @@ public class PedidoDAO implements IDAO<PedidoModel>{
         }
     }
     
+    public String[][] GetProdutoByPedidoId(PedidoModel model){
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sqlCount = "select count(id) as qtde from prog_aplicacoes.item_pedido where pedido_id = "+model.getId();
+            
+            ResultSet rsCount = st.executeQuery(sqlCount);
+            
+            int quantidadeRegistros = 0;
+            
+            while(rsCount.next()){
+                quantidadeRegistros = rsCount.getInt("qtde");
+            }
+            
+            String sql = "select produto.descricao, valor_unitario, qtde, valor_item from prog_aplicacoes.item_pedido " +
+            "inner join prog_aplicacoes.produto ON produto.id = item_pedido.produto_id " +
+            "where pedido_id = "+model.getId();
+            
+            ResultSet rsSelect = st.executeQuery(sql);
+            
+            String[] colunas = new String[]{"Produto","Valor Unitário","Quantidade","Valor Total"};
+            
+            String [][] data = new String[quantidadeRegistros][colunas.length];
+            
+            int i = 0;
+            
+            while(rsSelect.next()){
+           
+                String descricao = rsSelect.getString("descricao");
+                String valorUnitario = rsSelect.getString("valor_unitario");
+                String quantidade = rsSelect.getString("qtde");
+                String valorTotal = rsSelect.getString("valor_item");
+                
+                
+     
+                
+           
+                data[i][0] = descricao;
+                data[i][1] = valorUnitario;
+                data[i][2] = valorTotal;
+                data[i][3] = valorTotal;
+    
+                
+                i++;
+                
+            }
+            
+            return data;
+            
+        }catch(Exception e){
+            System.out.println("Erro ao buscar todos os registros: "+e);
+            return new String[0][0];
+        }
+    }
+    
 }

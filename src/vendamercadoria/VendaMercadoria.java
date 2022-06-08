@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 public class VendaMercadoria {
     
     public static void main(String[] args) {
-        new FrmLogin(new FrmMenuPrincipal(), true).setVisible(true);
+        var login = new FrmLogin(new FrmMenuPrincipal(), true);
         
+        login.setTitle("LOGIN");
+        login.setVisible(true);
     }
 }
