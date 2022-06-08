@@ -216,7 +216,7 @@ public class ClienteDAO implements IDAO<ClienteModel> {
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
 
-            String sql = "select id||' - '||nome||' - '||cpf as cliente  from prog_aplicacoes.cliente where ativo = 'S' order by cliente.nome;";
+            String sql = "select id||' - '||nome||' - '||cpf as cliente  from prog_aplicacoes.cliente where ativo = 'S' order by cliente.id;";
 
             ResultSet rsSelect = st.executeQuery(sql);
 

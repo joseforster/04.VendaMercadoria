@@ -21,19 +21,17 @@ public class PedidoDAO implements IDAO<PedidoModel>{
         try{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
-            String sql = "insert into prog_aplicacoes.pedido(data,endereco_entrega, observacao, cliente_id) values ("
-                    + "'" + objeto.getData()+"',"
-                    + "'" + objeto.getEndereco().getDescricao()+ " - " + objeto.getEndereco().getCep() + "'" +","
-                    + "'" + objeto.getObservacao()+"',"
-                    +"'"+objeto.getCliente().getId()+"');";
+            String sql = "update prog_aplicacoes.pedido set "
+                    + " endereco_entrega =  '"+objeto.getEndereco().getDescricao()+" - "+objeto.getEndereco().getCep()+
+                    "', observacao = '"+objeto.getObservacao()+"' where id = "+objeto.getId();
             
             System.out.println(sql);
             
             st.executeUpdate(sql);
             
             for(var produto : objeto.getProdutos()){
-                sql = "insert into prog_aplicacoes.item_pedido(pedido_id, produto_id, qtde,valor_item) values ("+
-                      "(select max(id) from prog_aplicacoes.pedido),"+
+                    sql = "insert into prog_aplicacoes.item_pedido(pedido_id, produto_id, qtde,valor_item) values ("+
+                      objeto.getId()+","+
                       produto.getProduto().getId()+","+
                       produto.getQuantidade()+","+
                       produto.getValorTotal()
@@ -209,6 +207,36 @@ public class PedidoDAO implements IDAO<PedidoModel>{
         }catch(Exception e){
             System.out.println("Erro ao buscar todos os registros: "+e);
             return new String[0][0];
+        }
+    }
+    
+    public int abrirPedido(PedidoModel objeto){
+        try{
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "insert into prog_aplicacoes.pedido(data,endereco_entrega, observacao, cliente_id) values ("
+                    + "'" + objeto.getData()+"',"
+                    + "null,"
+                    + "null,"
+                    +objeto.getCliente().getId()+") returning pedido.id;";
+            
+            System.out.println(sql);
+            
+            ResultSet retornoQuery = st.executeQuery(sql);
+            
+            int idPedido = 0;
+            
+            if(retornoQuery.next()){
+                idPedido = Integer.parseInt(retornoQuery.getString(1));
+            }
+            
+            
+            return idPedido;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao abrir pedido: " + e);
+            return 0;
         }
     }
     
