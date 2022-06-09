@@ -19,6 +19,13 @@ public class ProdutoModel {
         this.valor_unitario = valor_unitario;
         this.qtde_estoque = qtde_estoque;
     }
+
+    public ProdutoModel(int id, String descricao) {
+        this.id = id;
+        this.descricao = descricao;
+    }
+    
+    
             
     
 

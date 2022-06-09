@@ -233,13 +233,13 @@ public class PedidoDAO implements IDAO<PedidoModel>{
                 quantidadeRegistros = rsCount.getInt("qtde");
             }
             
-            String sql = "select produto.descricao, valor_unitario, qtde, valor_item from prog_aplicacoes.item_pedido " +
+            String sql = "select produto.id, produto.descricao, valor_unitario, qtde, valor_item from prog_aplicacoes.item_pedido " +
             "inner join prog_aplicacoes.produto ON produto.id = item_pedido.produto_id " +
             "where pedido_id = "+model.getId();
             
             ResultSet rsSelect = st.executeQuery(sql);
             
-            String[] colunas = new String[]{"Produto","Valor Unitário","Quantidade","Valor Total"};
+            String[] colunas = new String[]{"Produto Id","Produto","Valor Unitário","Quantidade","Valor Total"};
             
             String [][] data = new String[quantidadeRegistros][colunas.length];
             
@@ -247,6 +247,7 @@ public class PedidoDAO implements IDAO<PedidoModel>{
             
             while(rsSelect.next()){
            
+                String produtoId = rsSelect.getInt("id") + "";
                 String descricao = rsSelect.getString("descricao");
                 String valorUnitario = rsSelect.getString("valor_unitario");
                 String quantidade = rsSelect.getString("qtde");
@@ -256,10 +257,11 @@ public class PedidoDAO implements IDAO<PedidoModel>{
      
                 
            
-                data[i][0] = descricao;
-                data[i][1] = valorUnitario;
-                data[i][2] = valorTotal;
-                data[i][3] = valorTotal;
+                data[i][0] = produtoId;
+                data[i][1] = descricao;
+                data[i][2] = valorUnitario;
+                data[i][3] = quantidade;
+                data[i][4] = valorTotal;
     
                 
                 i++;
@@ -309,6 +311,39 @@ public class PedidoDAO implements IDAO<PedidoModel>{
             return false;
         }
     }
+    
+    public boolean DeleteItemPedido(ItemPedidoModel model){
+        try{
+            
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "delete from prog_aplicacoes.item_pedido where pedido_id = "
+                    + model.getPedido().getId() + " and produto_id = " 
+                    + model.getProduto().getId() + " and qtde = "
+                    + model.getQuantidade();
+            
+            System.out.println(sql);
+            
+            st.executeUpdate(sql);
+            
+            sql = "update prog_aplicacoes.produto " +
+            "set qtde_estoque = cast(produto.qtde_estoque as int) + " + model.getQuantidade() +
+            " where id = " + model.getProduto().getId() + ";";
+
+            System.out.println(sql);
+
+            st.executeUpdate(sql);
+            
+            return true;
+            
+        }catch(Exception e){
+            
+            System.out.println("Erro ao deletar item do pedido:"+e);
+            
+            return false;
+        }
+    }
+    
     
     
 }

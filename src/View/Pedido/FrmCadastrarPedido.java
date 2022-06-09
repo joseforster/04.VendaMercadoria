@@ -47,7 +47,7 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
     public void populateTable(){
         
         String[][] data = new PedidoDAO().GetProdutoByPedidoId(pedidoModel);
-        String[] colunas = new String[]{"Produto","Valor Unitário","Quantidade","Valor Total"};
+        String[] colunas = new String[]{"Produto Id","Produto","Valor Unitário","Quantidade","Valor Total"};
         
         DefaultTableModel tableModel = new DefaultTableModel(data, colunas);
         
@@ -173,20 +173,20 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Produto", "Valor Unitário", "Quantidade", "Valor Total"
+                "Produto Id", "Produto", "Valor Unitário", "Quantidade", "Valor Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -201,6 +201,11 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
 
         jButton5.setText("Excluir produto");
         jButton5.setEnabled(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -316,6 +321,10 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
         fieldValorTotal.setText("R$ " + String.format("%.2f", total));
 
         populateTable();
+        
+        String[] sourceListaCompraProdutos = new ProdutoDAO().GetAllJList();
+        
+        listaPedidoProdutos.setListData(sourceListaCompraProdutos);
 
         JOptionPane.showMessageDialog(null, "Produto inserido no pedido. \nValor Total: R$ " + itemPedidoModel.getValorTotal(), "SUCESSO", 2);
         
@@ -380,6 +389,32 @@ public class FrmCadastrarPedido extends javax.swing.JFrame {
         jButton4.setEnabled(false);
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        ItemPedidoModel model = new  ItemPedidoModel(
+                new ProdutoModel(
+                        Integer.parseInt(jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString()), 
+                        jTable2.getValueAt(jTable2.getSelectedRow(), 1).toString()), 
+                Integer.parseInt(jTable2.getValueAt(jTable2.getSelectedRow(), 3).toString()), 
+                pedidoModel);
+        
+        boolean sucesso = new PedidoDAO().DeleteItemPedido(model);
+        
+        if(sucesso){
+            JOptionPane.showMessageDialog(null, "Sucesso ao deletar produto ", "SUCESSO", 1);
+            
+            populateTable();
+            
+            String[] sourceListaCompraProdutos = new ProdutoDAO().GetAllJList();
+        
+            listaPedidoProdutos.setListData(sourceListaCompraProdutos);
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Erro ao deletar produto ", "ERRO", 2);
+        }
+        
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

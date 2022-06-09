@@ -74,7 +74,7 @@ create table if not exists prog_aplicacoes.item_pedido(
 	id serial primary key,
 	produto_id int not null,
 	pedido_id int not null,
-	qtde decimal(10,2) not null,
+	qtde integer not null,
 	valor_item decimal(10,2) not null,
 	foreign key (produto_id) references prog_aplicacoes.produto(id),
 	foreign key (pedido_id) references prog_aplicacoes.pedido(id)
